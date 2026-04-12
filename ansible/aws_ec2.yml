@@ -1,0 +1,23 @@
+plugin: amazon.aws.aws_ec2
+
+regions:
+  - us-west-2
+
+filters:
+  instance-state-name: running
+
+hostnames:
+  - instance-id
+
+hostvars_prefix: aws_
+
+compose:
+  ansible_host: instance_id
+  ansible_connection: '"amazon.aws.aws_ssm"'
+
+keyed_groups:
+  - key: aws_tags.Role
+    prefix: ""
+    separator: ""
+    leading_separator: false
+    
