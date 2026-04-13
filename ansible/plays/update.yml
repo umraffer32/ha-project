@@ -14,4 +14,9 @@
       ansible.builtin.apt:
         name: locales-all
         state: present
+
+    - name: Ensure en_US.UTF-8 locale exists
+      ansible.builtin.locale_gen:
+        name: en_US.UTF-8
+        state: present   
         
