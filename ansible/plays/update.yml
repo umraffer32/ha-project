@@ -1,5 +1,5 @@
 - name: Update and Upgrade
-  hosts: ssm_hosts
+  hosts: ssm_hosts,ssm_nat
   become: true
   gather_facts: false
 
