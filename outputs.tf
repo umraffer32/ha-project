@@ -16,11 +16,3 @@ output "ssm_host_ssm_commands" {
     "aws ssm start-session --target ${id}"
   ]
 }
-
-# output "ssm_commands" {
-#   value = join("\n", concat(
-#     ["NAT:", "aws ssm start-session --target ${aws_instance.nat.id}", ""],
-#     ["HOSTS:"],
-#     [for id in aws_instance.ssm_hosts[*].id : "aws ssm start-session --target ${id}"]
-#   ))
-# }
