@@ -29,3 +29,19 @@ data "aws_ami" "debian" {
     values = ["hvm"]
   }
 }
+
+# Amazon Linux 2023
+data "aws_ami" "amazon" {
+  most_recent = true
+  owners      = ["137112412989"] # Amazon official
+
+  filter {
+    name   = "name"
+    values = ["al2023-ami-*-x86_64"]
+  }
+
+  filter {
+    name   = "virtualization-type"
+    values = ["hvm"]
+  }
+}
