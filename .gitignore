@@ -9,3 +9,4 @@ outputs.txt
 test-commands.txt
 mirror-check.yml
 ssm-check.yml
+nat.yml
