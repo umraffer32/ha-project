@@ -10,3 +10,4 @@ test-commands.txt
 mirror-check.yml
 ssm-check.yml
 nat.yml
+ami-update-ssmcheck.yml
