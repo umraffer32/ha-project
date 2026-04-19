@@ -1,0 +1,55 @@
+---
+- name: Install and configure Tailscale on AWS instances
+  hosts: ssm_hosts
+  become: true
+  gather_facts: true
+
+  tasks:
+    - name: Install repo prerequisites
+      ansible.builtin.apt:
+        name:
+          - curl
+          - gnupg
+        state: present
+        update_cache: yes
+
+    - name: Add Tailscale GPG key
+      ansible.builtin.shell: |
+        curl -fsSL "https://pkgs.tailscale.com/stable/ubuntu/{{ ansible_distribution_release }}.gpg" \
+        | gpg --dearmor -o /usr/share/keyrings/tailscale-archive-keyring.gpg
+      args:
+        creates: /usr/share/keyrings/tailscale-archive-keyring.gpg
+
+    - name: Add Tailscale repository
+      ansible.builtin.copy:
+        dest: /etc/apt/sources.list.d/tailscale.list
+        mode: "0644"
+        content: |
+          deb [signed-by=/usr/share/keyrings/tailscale-archive-keyring.gpg] https://pkgs.tailscale.com/stable/ubuntu {{ ansible_distribution_release }} main
+
+    - name: Install Tailscale
+      ansible.builtin.apt:
+        name: tailscale
+        state: present
+        update_cache: yes
+
+    - name: Enable and start tailscaled
+      ansible.builtin.systemd:
+        name: tailscaled
+        enabled: true
+        state: started
+
+    - name: Check Tailscale status
+      ansible.builtin.command: tailscale status --json
+      register: tailscale_status
+      changed_when: false
+      failed_when: false
+
+    - name: Bring Tailscale up if not already connected
+      ansible.builtin.command: >
+        tailscale up
+        --authkey={{ tailscale_authkey }}
+        --accept-dns=false
+      when: "'Running' not in tailscale_status.stdout"
+      register: tailscale_up
+      changed_when: "'Running' not in tailscale_status.stdout"
