@@ -74,7 +74,7 @@ ansible-playbook ansible/plays/update.yml -l ssm_hosts
 
 ## aws_ec2 inventory plugin: `compose` quirks
 
-### 1. String literals in `compose` need double quoting
+### 4. String literals in `compose` need double quoting
 
 The `compose:` block evaluates every value as a **Jinja2 expression**, not a literal string. Writing:
 
@@ -96,7 +96,7 @@ ansible_connection: '"community.aws.aws_ssm"'
 
 Applies to any literal string set via `compose` (e.g. `ansible_user: '"ubuntu"'`).
 
-### 2. `ansible_host: instance_id` is unnecessary for SSM
+### 5. `ansible_host: instance_id` is unnecessary for SSM
 
 `ansible_host` tells Ansible where to make a **network connection** (SSH target IP/DNS). The SSM connection plugin doesn't open a network connection from the control node — it talks to the AWS SSM API, which routes to the agent on the instance. SSM only needs the **instance ID**, which it pulls from the inventory hostname.
 
