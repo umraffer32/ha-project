@@ -55,14 +55,8 @@ A NAT Gateway would be the preferred solution in production, but costs ~$32/mont
 │   │   └── ssm_nat/
 │   │       └── main.yml          # Vars specific to the NAT instance
 │   ├── plays/
-│   │   ├── ami-nat.yml           # Configure NAT (iptables, ip_forward)
-│   │   ├── ami-reboot.yml        # Reboot NAT after configuration
-│   │   ├── ami-update-ssmcheck.yml  # Update + verify SSM pre-AMI
 │   │   ├── aws-tailscale.yml     # Install and configure Tailscale
-│   │   ├── mirror-check.yml      # Verify package mirror availability
-│   │   ├── nat.yml               # NAT instance playbook
 │   │   ├── reboot.yml            # Safe reboot with reconnect wait
-│   │   ├── ssm-check.yml         # Verify SSM agent status
 │   │   └── update.yml            # Full system update
 │   ├── ansible.cfg               # SSM proxy config, inventory settings
 │   └── aws_ec2.yml               # Dynamic inventory (aws_ec2 plugin)
@@ -72,7 +66,6 @@ A NAT Gateway would be the preferred solution in production, but costs ~$32/mont
 ├── outputs.tf                    # SSM connect commands for all instances
 ├── security.tf                   # Security groups (NAT and private hosts)
 ├── variables.tf                  # Input variables (ssm_host_count)
-├── terraform.tfvars              # Variable overrides (gitignored)
 ├── deploy.sh                     # Full deploy + configure automation script
 ├── wipe.sh                       # Teardown script
 └── PROBLEMS.md                   # Issues encountered and solutions
